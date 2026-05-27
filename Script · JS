@@ -1,0 +1,75 @@
+function checkMatch() {
+  var P = document.getElementById("inputP").value.trim().toUpperCase();
+  var Q = document.getElementById("inputQ").value.trim().toUpperCase();
+ 
+  // Remove surrounding quotes if user typed them
+  P = P.replace(/^["']|["']$/g, "");
+  Q = Q.replace(/^["']|["']$/g, "");
+ 
+  // Validation: P must only have uppercase letters
+  if (!/^[A-Z]+$/.test(P)) {
+    showResult("Invalid Pattern: P must contain only uppercase letters.", "invalid");
+    return;
+  }
+ 
+  // Validation: Q must only have uppercase letters and '+'
+  if (!/^[A-Z+]+$/.test(Q)) {
+    showResult("Invalid Pattern: Q must contain only uppercase letters and '+'.", "invalid");
+    return;
+  }
+ 
+  // '+' cannot be at the start of Q
+  if (Q[0] === '+') {
+    showResult("Invalid Pattern: '+' cannot be at the start of Q.", "invalid");
+    return;
+  }
+ 
+  // '++' is not allowed
+  if (Q.indexOf("++") !== -1) {
+    showResult("Invalid Pattern: '++' is not allowed.", "invalid");
+    return;
+  }
+ 
+  // Build a regex string from Q
+  // Letter followed by '+' → one or more of that letter
+  // Plain letter          → exactly that letter once
+  var regexStr = "^";
+  var i = 0;
+ 
+  while (i < Q.length) {
+    var ch = Q[i];
+ 
+    if (ch === '+') {
+      // Stray '+' not caught above
+      showResult("Invalid Pattern: misplaced '+'.", "invalid");
+      return;
+    }
+ 
+    if (i + 1 < Q.length && Q[i + 1] === '+') {
+      regexStr += ch + '+';
+      i += 2;
+    } else {
+      regexStr += ch;
+      i++;
+    }
+  }
+ 
+  regexStr += "$";
+ 
+  // Test the regex against P
+  var regex = new RegExp(regexStr);
+  var matched = regex.test(P);
+ 
+  if (matched) {
+    showResult("Output: True ✅", "true");
+  } else {
+    showResult("Output: False ❌", "false");
+  }
+}
+ 
+function showResult(message, type) {
+  var resultDiv = document.getElementById("result");
+  resultDiv.textContent = message;
+  resultDiv.className = "result " + type;
+  resultDiv.style.display = "block";
+}
