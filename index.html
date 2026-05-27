@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Regular Expression Matching</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>Regular Expression Matching</h1>
+    <p class="desc">
+      Match string <b>P</b> against pattern <b>Q</b>.<br>
+      <b>+</b> means one or more of the preceding letter.
+    </p>
+
+    <label for="inputP">String P:</label>
+    <input type="text" id="inputP" placeholder="e.g. AAAB" />
+
+    <label for="inputQ">Pattern Q:</label>
+    <input type="text" id="inputQ" placeholder="e.g. A+B" />
+
+    <button onclick="checkMatch()">Check Match</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="examples">
+      <b>Examples:</b><br><br>
+      P = "AAAB", Q = "A+B" → <b>True</b><br>
+      (A+ matches AAA, then B matches B)<br><br>
+      P = "AABA", Q = "AA" → <b>False</b><br>
+      (Pattern does not cover full string)
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
